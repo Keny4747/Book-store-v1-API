@@ -1,4 +1,8 @@
 package pe.todotic.bookstoreapi_s2.repository;
 
-public class UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import pe.todotic.bookstoreapi_s2.model.User;
+@Repository
+public interface UserRepository extends JpaRepository<User,Integer> {
 }
