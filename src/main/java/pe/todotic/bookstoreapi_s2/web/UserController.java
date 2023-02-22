@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    User update(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
+    User update(@Validated @PathVariable Integer id, @RequestBody UserDTO userDTO) {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
