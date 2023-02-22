@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pe.todotic.bookstoreapi_s2.model.User;
 import pe.todotic.bookstoreapi_s2.repository.UserRepository;
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping
-    User create(@RequestBody UserDTO userDTO) {
+    User create(@Validated @RequestBody UserDTO userDTO) {
         User user = new ModelMapper().map(userDTO, User.class);
         return userRepository.save(user);
     }
