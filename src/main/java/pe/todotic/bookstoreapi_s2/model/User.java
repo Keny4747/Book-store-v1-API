@@ -2,6 +2,8 @@ package pe.todotic.bookstoreapi_s2.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -29,7 +31,16 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public enum Role{
+    @PrePersist
+    public void createdAt() {
+        this.createdAt=LocalDateTime.now();
+    }
+    @PreUpdate
+    public void updatedAt(){
+        this.updatedAt=LocalDateTime.now();
+    }
+
+    public enum Role {
         ADMIN,//0
         USER//1
     }

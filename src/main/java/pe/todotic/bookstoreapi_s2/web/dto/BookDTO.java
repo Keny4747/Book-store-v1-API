@@ -1,14 +1,23 @@
 package pe.todotic.bookstoreapi_s2.web.dto;
 
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
-/**
- * Java 17 permite crear records util para los DTOs
- */
 @Data
 public class BookDTO {
+
+    @NotNull
+    @Size(min = 3, max = 100)
     private String title;
+
+    @NotNull
+    @Min(0)
     private Float price;
+
+    @NotNull
+    @Pattern(regexp = "[a-z0-9-]+")
     private String slug;
+
+    @NotBlank(message = "La descripción es obligatoria")
     private String desc;
 }
