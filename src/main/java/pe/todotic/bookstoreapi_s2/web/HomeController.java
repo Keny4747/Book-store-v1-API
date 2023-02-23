@@ -1,6 +1,5 @@
 package pe.todotic.bookstoreapi_s2.web;
 
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,8 +28,7 @@ public class HomeController {
     private SalesOrderRepository salesOrderRepository;
     @GetMapping("/last-books")
     List<Book> getLastBooks(){
-      // Pageable pageable= PageRequest.of(0,6, Sort.by("createdAt").descending());
-      // return bookRepository.findAll(pageable).getContent();
+
         return bookRepository.findTop6ByOrderByCreatedAtDesc();
     }
     @GetMapping
