@@ -33,12 +33,17 @@ public class User {
 
     @PrePersist
     public void createdAt() {
-        this.createdAt=LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.fullName = firstName+" "+lastName;
     }
+
     @PreUpdate
-    public void updatedAt(){
-        this.updatedAt=LocalDateTime.now();
+    public void updatedAt() {
+        this.updatedAt = LocalDateTime.now();
+
     }
+
+
 
     public enum Role {
         ADMIN,//0
