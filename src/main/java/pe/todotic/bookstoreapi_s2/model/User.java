@@ -40,7 +40,7 @@ public class User {
     @PreUpdate
     public void updatedAt() {
         this.updatedAt = LocalDateTime.now();
-
+        this.fullName = firstName+" "+lastName;
     }
 
 
