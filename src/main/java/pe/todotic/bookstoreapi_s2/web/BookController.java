@@ -14,7 +14,6 @@ import pe.todotic.bookstoreapi_s2.model.Book;
 import pe.todotic.bookstoreapi_s2.repository.BookRepository;
 import pe.todotic.bookstoreapi_s2.web.dto.BookDTO;
 
-import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -85,7 +84,7 @@ public class BookController {
             /* sobreescribir la config. por defecto:
              *   ordenar por el título de forma ascendente
              *   y con un tamaño de 5 elementos por página. */
-            @PageableDefault (sort = "title",direction = Sort.Direction.ASC,size = 5)Pageable pageable
+            @PageableDefault (sort = "title", direction = Sort.Direction.ASC, size = 5)Pageable pageable
     ) {
         // retorna la lista de libros de forma paginada
         return bookRepository.findAll(pageable);
