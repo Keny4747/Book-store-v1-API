@@ -20,4 +20,10 @@ public class BookDTO {
 
     @NotBlank(message = "La descripción es obligatoria")
     private String desc;
+
+    @NotBlank
+    private String coverPath;
+    @NotBlank
+    private String filePath;
+
 }

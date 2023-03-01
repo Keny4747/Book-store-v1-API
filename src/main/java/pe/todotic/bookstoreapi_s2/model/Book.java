@@ -20,6 +20,9 @@ public class Book {
     private String desc;
     private Float price;
 
+    private String coverPath;
+    private String filePath;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
