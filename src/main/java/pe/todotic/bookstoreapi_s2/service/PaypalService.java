@@ -3,10 +3,12 @@ package pe.todotic.bookstoreapi_s2.service;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import pe.todotic.bookstoreapi_s2.web.paypal.Token;
 
 @Service
 public class PaypalService {
@@ -30,6 +32,8 @@ public class PaypalService {
         form.add("gran_type","client_credentials");
 
         HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(form,headers);
-        restTemplate.postForEntity(url,entity,)
+        ResponseEntity<Token> response= restTemplate.postForEntity(url,entity, Token.class);
+
+        return response.getBody().getAccesToken();
     }
 }
