@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import pe.todotic.bookstoreapi_s2.model.SalesOrder;
 import pe.todotic.bookstoreapi_s2.web.paypal.Token;
 
 @Service
@@ -29,11 +30,15 @@ public class PaypalService {
         headers.setBasicAuth(PAYPAL_CLIENT_ID,PAYPAL_CLIENT_SECRET);
 
         MultiValueMap<String,String> form = new LinkedMultiValueMap<>();
-        form.add("gran_type","client_credentials");
+        form.add("grant_type","client_credentials");
 
         HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(form,headers);
         ResponseEntity<Token> response= restTemplate.postForEntity(url,entity, Token.class);
 
         return response.getBody().getAccesToken();
+    }
+
+    public void createOrder(SalesOrder salesOrder, String returnUrl, String cancel){
+
     }
 }

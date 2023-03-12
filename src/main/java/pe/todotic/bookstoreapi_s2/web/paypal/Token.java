@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Token {
+
     @JsonProperty("acces_token")
     private String accesToken;
 
