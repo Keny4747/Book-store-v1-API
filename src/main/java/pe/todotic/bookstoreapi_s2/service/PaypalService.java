@@ -42,7 +42,7 @@ public class PaypalService {
         return response.getBody().getAccesToken();
     }
 
-    public void createOrder(SalesOrder salesOrder, String returnUrl, String cancelUrl){
+    public OrderResponse createOrder(SalesOrder salesOrder, String returnUrl, String cancelUrl){
         String url = String.format("%s/v2/checkout/orders",PAYPAL_API_BASE);
 
         OrderRequest orderRequest = new OrderRequest();
@@ -88,5 +88,16 @@ public class PaypalService {
         });
 
         orderRequest.setPurchaseUnits(Collections.singletonList(purchaseUnit));
+
+
+        String accessToken = getAccesToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        HttpEntity<OrderRequest> entity = new HttpEntity<>(orderRequest,headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<OrderResponse> response= restTemplate.postForEntity(url,entity, OrderResponse.class);
+
+        return response.getBody();
     }
 }
