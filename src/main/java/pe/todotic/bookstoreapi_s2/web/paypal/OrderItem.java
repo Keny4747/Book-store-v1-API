@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class OrderItem {
     private String name;
-    private String sKu;
+    private String sku;
     private String quantity;
 
     @JsonProperty("unit_amount")

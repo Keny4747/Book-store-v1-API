@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import pe.todotic.bookstoreapi_s2.model.Book;
 import pe.todotic.bookstoreapi_s2.model.SalesOrder;
 import pe.todotic.bookstoreapi_s2.web.paypal.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 @Service
 public class PaypalService {
@@ -64,7 +68,25 @@ public class PaypalService {
         purchaseAmount.setBreakDown(new Amount.BreakDown(itemsAmount));
 
         purchaseUnit.setAmount(purchaseAmount);
-        purchaseUnit
+        purchaseUnit.setItems(new ArrayList<>());
 
+        salesOrder.getItems().forEach(itemOrder->{
+            Book book = itemOrder.getBook();
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setName(book.getTitle());
+            orderItem.setSku(book.getId().toString());
+            orderItem.setQuantity("1");
+
+            Amount unitAmount = new Amount();
+            unitAmount.setCurrendyCode(Amount.CurrencyCode.USD);
+            unitAmount.setValue(itemOrder.getPrice().toString());
+
+            orderItem.setUnitAmount(unitAmount);
+            purchaseUnit.getItems().add(orderItem);
+
+        });
+
+        orderRequest.setPurchaseUnits(Collections.singletonList(purchaseUnit));
     }
 }
