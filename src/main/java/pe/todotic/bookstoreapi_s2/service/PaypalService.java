@@ -51,6 +51,7 @@ public class PaypalService {
         applicationContext.setReturnUrl(returnUrl);
         applicationContext.setCancelUrl(cancelUrl);
 
+        //create single purchase unit of sales order
         
     }
 }
