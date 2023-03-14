@@ -9,6 +9,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import pe.todotic.bookstoreapi_s2.model.SalesOrder;
+import pe.todotic.bookstoreapi_s2.web.paypal.ApplicationContext;
+import pe.todotic.bookstoreapi_s2.web.paypal.OrderRequest;
 import pe.todotic.bookstoreapi_s2.web.paypal.Token;
 
 @Service
@@ -38,7 +40,17 @@ public class PaypalService {
         return response.getBody().getAccesToken();
     }
 
-    public void createOrder(SalesOrder salesOrder, String returnUrl, String cancel){
+    public void createOrder(SalesOrder salesOrder, String returnUrl, String cancelUrl){
+        String url = String.format("%s/v2/checkout/orders",PAYPAL_API_BASE);
 
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setIntent(OrderRequest.Intent.CAPTURE);
+
+        ApplicationContext applicationContext = new ApplicationContext();
+        applicationContext.setBrandName("TODO TIC");
+        applicationContext.setReturnUrl(returnUrl);
+        applicationContext.setCancelUrl(cancelUrl);
+
+        
     }
 }
