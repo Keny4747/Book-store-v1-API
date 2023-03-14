@@ -9,9 +9,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import pe.todotic.bookstoreapi_s2.model.SalesOrder;
-import pe.todotic.bookstoreapi_s2.web.paypal.ApplicationContext;
-import pe.todotic.bookstoreapi_s2.web.paypal.OrderRequest;
-import pe.todotic.bookstoreapi_s2.web.paypal.Token;
+import pe.todotic.bookstoreapi_s2.web.paypal.*;
 
 @Service
 public class PaypalService {
@@ -52,6 +50,21 @@ public class PaypalService {
         applicationContext.setCancelUrl(cancelUrl);
 
         //create single purchase unit of sales order
-        
+        PurchaseUnit purchaseUnit = new PurchaseUnit();
+        purchaseUnit.setReferenceId(salesOrder.getId().toString());
+
+        Amount purchaseAmount = new Amount();
+        purchaseAmount.setCurrendyCode(Amount.CurrencyCode.USD);
+        purchaseAmount.setValue(salesOrder.getTotal().toString());
+
+        Amount itemsAmount = new Amount();
+        purchaseAmount.setCurrendyCode(Amount.CurrencyCode.USD);
+        purchaseAmount.setValue(salesOrder.getTotal().toString());
+
+        purchaseAmount.setBreakDown(new Amount.BreakDown(itemsAmount));
+
+        purchaseUnit.setAmount(purchaseAmount);
+        purchaseUnit
+
     }
 }
