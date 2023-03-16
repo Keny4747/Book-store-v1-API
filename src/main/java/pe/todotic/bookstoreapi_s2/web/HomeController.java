@@ -6,16 +6,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pe.todotic.bookstoreapi_s2.model.Book;
 import pe.todotic.bookstoreapi_s2.model.SalesOrder;
 import pe.todotic.bookstoreapi_s2.repository.BookRepository;
 import pe.todotic.bookstoreapi_s2.repository.SalesOrderRepository;
+import pe.todotic.bookstoreapi_s2.service.PaypalService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +25,9 @@ public class HomeController {
 
     @Autowired
     private SalesOrderRepository salesOrderRepository;
+
+    @Autowired
+    private PaypalService paypalService;
     @GetMapping("/last-books")
     List<Book> getLastBooks(){
 
@@ -44,5 +46,13 @@ public class HomeController {
     SalesOrder getSalesOrder(@PathVariable Integer id){
         return salesOrderRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @PostMapping("/checkout/paypal/create")
+    Map<String, String> createPaypalCheckout(
+            @RequestBody List<Integer> bookId,
+            @RequestParam String returnUrl){
+
+        paypalService.captureOrder(null,returnUrl,returnUrl);
     }
 }

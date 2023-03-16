@@ -20,7 +20,7 @@ public class SalesOrder {
     @JoinColumn(name = "customer_id",referencedColumnName = "id")
     private User customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SalesItem> items;
 
     public enum PaymentStatus{

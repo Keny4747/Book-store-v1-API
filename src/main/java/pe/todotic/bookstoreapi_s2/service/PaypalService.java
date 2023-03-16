@@ -53,6 +53,8 @@ public class PaypalService {
         applicationContext.setReturnUrl(returnUrl);
         applicationContext.setCancelUrl(cancelUrl);
 
+        orderRequest.setApplicationContext(applicationContext);
+
         //create single purchase unit of sales order
         PurchaseUnit purchaseUnit = new PurchaseUnit();
         purchaseUnit.setReferenceId(salesOrder.getId().toString());
@@ -62,8 +64,8 @@ public class PaypalService {
         purchaseAmount.setValue(salesOrder.getTotal().toString());
 
         Amount itemsAmount = new Amount();
-        purchaseAmount.setCurrendyCode(Amount.CurrencyCode.USD);
-        purchaseAmount.setValue(salesOrder.getTotal().toString());
+        itemsAmount.setCurrendyCode(Amount.CurrencyCode.USD);
+        itemsAmount.setValue(salesOrder.getTotal().toString());
 
         purchaseAmount.setBreakDown(new Amount.BreakDown(itemsAmount));
 
@@ -97,6 +99,23 @@ public class PaypalService {
         HttpEntity<OrderRequest> entity = new HttpEntity<>(orderRequest,headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<OrderResponse> response= restTemplate.postForEntity(url,entity, OrderResponse.class);
+
+        return response.getBody();
+    }
+
+    public OrderCaptureResponse captureOrder(String orderId){
+        String url = String.format("%s/v2/checkout/orders/%s/capture",PAYPAL_API_BASE,orderId);
+
+        String accessToken = getAccesToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<OrderRequest> entity = new HttpEntity<>(null,headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<OrderCaptureResponse> response= restTemplate
+                .postForEntity(url,entity, OrderCaptureResponse.class);
 
         return response.getBody();
     }
