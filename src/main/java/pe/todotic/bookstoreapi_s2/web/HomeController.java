@@ -13,6 +13,7 @@ import pe.todotic.bookstoreapi_s2.repository.BookRepository;
 import pe.todotic.bookstoreapi_s2.repository.SalesOrderRepository;
 import pe.todotic.bookstoreapi_s2.service.PaypalService;
 import pe.todotic.bookstoreapi_s2.service.SalesOrderService;
+import pe.todotic.bookstoreapi_s2.web.paypal.OrderCaptureResponse;
 import pe.todotic.bookstoreapi_s2.web.paypal.OrderResponse;
 
 import java.util.List;
@@ -71,6 +72,27 @@ public class HomeController {
                 .getHref();
 
         return Map.of("approve",approveUrl);
-        
+
+    }
+
+    @PostMapping("/checkout/paypal/capture")
+    Map<String, Object> capturePaypalCheckout(@RequestParam String token){
+        OrderCaptureResponse orderCaptureResponse = paypalService.captureOrder(token);
+
+        boolean completed = orderCaptureResponse.getStatus().equals("COMPLETED");
+        int orderId = 0;
+
+        if(completed){
+            orderId = Integer.parseInt(orderCaptureResponse.getPurchaseUnits().get(0).getReferenceId());
+            SalesOrder salesOrder =salesOrderRepository
+                    .findById(orderId)
+                    .orElseThrow(RuntimeException::new);
+
+            salesOrder.setPaymentStatus(SalesOrder.PaymentStatus.PAID);
+            salesOrderRepository.save(salesOrder);
+        }
+
+        return Map.of("completed",completed,"orderId",orderId);
+
     }
 }
