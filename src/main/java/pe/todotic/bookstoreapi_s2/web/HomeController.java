@@ -12,6 +12,8 @@ import pe.todotic.bookstoreapi_s2.model.SalesOrder;
 import pe.todotic.bookstoreapi_s2.repository.BookRepository;
 import pe.todotic.bookstoreapi_s2.repository.SalesOrderRepository;
 import pe.todotic.bookstoreapi_s2.service.PaypalService;
+import pe.todotic.bookstoreapi_s2.service.SalesOrderService;
+import pe.todotic.bookstoreapi_s2.web.paypal.OrderResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,10 @@ public class HomeController {
 
     @Autowired
     private PaypalService paypalService;
+
+    @Autowired
+    private SalesOrderService salesOrderService;
+
     @GetMapping("/last-books")
     List<Book> getLastBooks(){
 
@@ -50,9 +56,21 @@ public class HomeController {
 
     @PostMapping("/checkout/paypal/create")
     Map<String, String> createPaypalCheckout(
-            @RequestBody List<Integer> bookId,
+            @RequestBody List<Integer> bookIds,
             @RequestParam String returnUrl){
 
-        paypalService.createOrder(null,returnUrl,returnUrl);
+        SalesOrder salesOrder = salesOrderService.create(bookIds);
+        OrderResponse orderResponse = paypalService.createOrder(salesOrder,returnUrl,returnUrl);
+
+        String approveUrl = orderResponse
+                .getLinks()
+                .stream()
+                .filter(link -> link.getRel().equals("approve"))
+                .findFirst()
+                .orElseThrow(RuntimeException::new)
+                .getHref();
+
+        return Map.of("approve",approveUrl);
+        
     }
 }

@@ -22,7 +22,7 @@ public class SalesOrderService {
     @Autowired
     private SalesOrderRepository salesOrderRepository;
 
-    public SalesOrder salesOrderRepository(List<Integer> bookIds){
+    public SalesOrder create(List<Integer> bookIds){
         SalesOrder salesOrder = new SalesOrder();
         List<SalesItem> items = new ArrayList<>();
         float total = 0;
