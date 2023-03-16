@@ -53,6 +53,6 @@ public class HomeController {
             @RequestBody List<Integer> bookId,
             @RequestParam String returnUrl){
 
-        paypalService.captureOrder(null,returnUrl,returnUrl);
+        paypalService.createOrder(null,returnUrl,returnUrl);
     }
 }

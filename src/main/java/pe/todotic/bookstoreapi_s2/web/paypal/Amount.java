@@ -7,17 +7,18 @@ import lombok.RequiredArgsConstructor;
 @Data
 public class Amount {
     @JsonProperty("currency_code")
-    private CurrencyCode currendyCode;
+    private CurrencyCode currencyCode;
 
     private String value;
+    private Breakdown breakdown;
 
-    private BreakDown breakDown;
-    public enum CurrencyCode{
+    public enum CurrencyCode {
         USD
     }
+
     @Data
     @RequiredArgsConstructor
-    public static class BreakDown{
+    public static class Breakdown {
         @NonNull
         @JsonProperty("item_total")
         private Amount itemTotal;

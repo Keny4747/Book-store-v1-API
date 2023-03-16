@@ -10,7 +10,7 @@ public class OrderResponse {
     private List<Link> links;
 
     @Data
-    public static class Link{
+    public static class Link {
         private String href;
         private String rel;
         private String method;

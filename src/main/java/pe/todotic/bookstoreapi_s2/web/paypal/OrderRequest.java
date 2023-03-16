@@ -15,7 +15,7 @@ public class OrderRequest {
     @JsonProperty("purchase_units")
     private List<PurchaseUnit> purchaseUnits;
 
-    public enum Intent{
+    public enum Intent {
         CAPTURE
     }
 }

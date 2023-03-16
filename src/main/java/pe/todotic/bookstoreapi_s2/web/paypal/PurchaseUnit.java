@@ -10,6 +10,5 @@ public class PurchaseUnit {
     private String referenceId;
 
     private Amount amount;
-
     private List<OrderItem> items;
 }

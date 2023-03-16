@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class Token {
 
-    @JsonProperty("acces_token")
-    private String accesToken;
+    @JsonProperty("access_token")
+    private String accessToken;
 
     @JsonProperty("token_type")
     private String tokenType;
