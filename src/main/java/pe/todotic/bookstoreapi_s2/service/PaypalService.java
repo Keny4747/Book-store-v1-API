@@ -22,8 +22,7 @@ public class PaypalService {
     private final static String PAYPAL_CLIENT_SECRET = "EIZFE6-EyKMgC51oCsIY9qLUzh5Q71tBXxYpit4DnwSyV9L0EvvFgzQAv9Um-u9ergtl-JrLbYFL0x32";
 
 
-//    @Autowired
-//    private SalesOrderRepository salesOrderRepository;
+
 
     private String getAccessToken() {
         String url = String.format("%s/v1/oauth2/token", PAYPAL_API_BASE);
@@ -42,12 +41,6 @@ public class PaypalService {
         return response.getBody().getAccessToken();
     }
 
-//    @PostConstruct
-//    public void testCaptureOrder() {
-////        SalesOrder salesOrder = salesOrderRepository.findById(1).get();
-////        createOrder(salesOrder, "https://google.com", "https://google.com");
-////        captureOrder("0B528572S3357184D");
-//    }
 
     public OrderResponse createOrder(SalesOrder salesOrder, String returnUrl, String cancelUrl) {
         String url = String.format("%s/v2/checkout/orders", PAYPAL_API_BASE);
