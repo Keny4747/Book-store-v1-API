@@ -109,7 +109,7 @@ public class HomeController {
         return Map.of("completed", completed, "orderId", orderId);
     }
 
-    @PostMapping("/orders/{orderId}/items/{itemId}/book/download")
+    @GetMapping("/orders/{orderId}/items/{itemId}/book/download")
     Resource downloadBookFromSalesItem(@PathVariable Integer orderId, @PathVariable Integer itemId) {
         SalesOrder salesOrder = salesOrderRepository
                 .findById(orderId)
