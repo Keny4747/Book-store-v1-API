@@ -1,5 +1,6 @@
 package pe.todotic.bookstoreapi_s2.service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,16 +19,14 @@ import java.util.Collections;
 public class PaypalService {
 
     private final static String PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com";
-    private final static String PAYPAL_CLIENT_ID = "AdFHz9xM9yb1cQPj568S4RsRmeCepn9xMrUDnukZYo_XlDZIBjStYL2u71zqwSyluYVWELKG4zC0kyMy";
-    private final static String PAYPAL_CLIENT_SECRET = "EIZFE6-EyKMgC51oCsIY9qLUzh5Q71tBXxYpit4DnwSyV9L0EvvFgzQAv9Um-u9ergtl-JrLbYFL0x32";
-
-
-
+    private final static String PAYPAL_CLIENT_ID = "ATYbcb9BL81aM8s0wlK_uOB3x0swFbhYpuaul0g7skKDkFMHOmfzG8VWAJSARsp5n8N99ks6i-ShWrjE";
+    private final static String PAYPAL_CLIENT_SECRET = "EBsFGoPknTNLnUw-Qkp0MSQ-1ykzwaEqmWNugaQERxZNnTUtNQ0hDSEnyem-FrlHc8wteh0jCTw6mLNW";
 
     private String getAccessToken() {
         String url = String.format("%s/v1/oauth2/token", PAYPAL_API_BASE);
         RestTemplate restTemplate = new RestTemplate();
 
+        //Configuración del encabezado
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setBasicAuth(PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET);
@@ -38,7 +37,7 @@ public class PaypalService {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(form, headers);
         ResponseEntity<Token> response = restTemplate.postForEntity(url, entity, Token.class);
 
-        return response.getBody().getAccessToken();
+           return response.getBody().getAccessToken();
     }
 
 
