@@ -1,6 +1,7 @@
 package pe.todotic.bookstoreapi_s2.service;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import pe.todotic.bookstoreapi_s2.model.Book;
 import pe.todotic.bookstoreapi_s2.model.SalesOrder;
+import pe.todotic.bookstoreapi_s2.repository.SalesOrderRepository;
 import pe.todotic.bookstoreapi_s2.web.paypal.*;
 
 import java.util.ArrayList;
@@ -40,7 +42,13 @@ public class PaypalService {
            return response.getBody().getAccessToken();
     }
 
-
+    @Autowired
+    private SalesOrderRepository salesOrderRepository;
+    @PostConstruct
+    private void init(){
+        SalesOrder salesOrder = salesOrderRepository.findById(1).get();
+        createOrder(salesOrder,"https://google.com","https://google.com");
+    }
     public OrderResponse createOrder(SalesOrder salesOrder, String returnUrl, String cancelUrl) {
         String url = String.format("%s/v2/checkout/orders", PAYPAL_API_BASE);
 

@@ -15,7 +15,6 @@ public class Amount {
     public enum CurrencyCode {
         USD
     }
-
     @Data
     @RequiredArgsConstructor
     public static class Breakdown {
