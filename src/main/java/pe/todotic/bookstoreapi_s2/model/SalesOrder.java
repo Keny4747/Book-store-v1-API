@@ -14,6 +14,8 @@ public class SalesOrder {
 
     private Float total;
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
     @ManyToOne
